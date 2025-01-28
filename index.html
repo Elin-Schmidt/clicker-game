@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<!-- Vue components: https://vuejs.org/guide/essentials/component-basics.html
+
+We might want the text "Submit" to be rendered inside the <button>
+    if the parent didn't provide any slot content.
+    To make "Submit" the fallback content,
+    we can place it in between the <slot> tags:
+
+template
+<button type="submit">
+  <slot>
+    Submit <*-- fallback content --*>
+</slot>
+</button>
+ -->
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Vite + Vue</title>
+    </head>
+    <body>
+        <div id="app"></div>
+        <script type="module" src="/src/main.js"></script>
+    </body>
+</html>
