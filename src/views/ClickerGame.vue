@@ -4,7 +4,7 @@
         <section>
             <Heart :progress="totalProgress" />
         </section>
-        <section>
+        <section id="clicker-button">
             <ClickerButton
                 id="button1"
                 :initialStyle="defaultButtonStyle"
@@ -40,6 +40,7 @@
                 defaultButtonStyle: {
                     backgroundColor: '#4caf50',
                     color: '#fff',
+                    borderRadius: '2rem',
                     padding: '15px 32px',
                     textAlign: 'center',
                     textDecoration: 'none',
@@ -123,5 +124,12 @@
 <style scoped>
     h1 {
         color: #333;
+    }
+    main {
+        display: flex;
+        flex-direction: column;
+    }
+    #clicker-button {
+        align-self: center;
     }
 </style>
