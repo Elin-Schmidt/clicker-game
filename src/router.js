@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 import ClickerGame from './views/ClickerGame.vue';
 import Home from './views/Home.vue';
+import Notes from './views/Notes.vue';
 
 // Create a new router
 export default createRouter({
@@ -17,6 +18,10 @@ export default createRouter({
         {
             component: ClickerGame,
             path: '/clicker-game'
+        },
+        {
+            component: Notes,
+            path: '/notes'
         }
     ]
 });
