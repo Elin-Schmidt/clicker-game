@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
     import NotesComponent from '../components/NotesComponent.vue';
 </script>
 

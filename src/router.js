@@ -4,6 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import ClickerGame from './views/ClickerGame.vue';
 import Home from './views/Home.vue';
 import Notes from './views/Notes.vue';
+import TwitchCalendar from './views/TwitchCalendar.vue';
 
 // Create a new router
 export default createRouter({
@@ -22,6 +23,10 @@ export default createRouter({
         {
             component: Notes,
             path: '/notes'
+        },
+        {
+            component: TwitchCalendar,
+            path: '/twitch-calendar'
         }
     ]
 });

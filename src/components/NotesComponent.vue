@@ -50,13 +50,27 @@
 </template>
 
 <script>
-    import { ref } from 'vue';
+    import { ref, onMounted } from 'vue';
 
     export default {
         setup() {
             const diaryEntry = ref('');
             const diaryEntries = ref([]);
             const editIndex = ref(null);
+
+            const loadEntries = () => {
+                const savedEntries = localStorage.getItem('diaryEntries');
+                if (savedEntries) {
+                    diaryEntries.value = JSON.parse(savedEntries);
+                }
+            };
+
+            const saveEntries = () => {
+                localStorage.setItem(
+                    'diaryEntries',
+                    JSON.stringify(diaryEntries.value)
+                );
+            };
 
             const addOrUpdateEntry = () => {
                 if (editIndex.value !== null) {
@@ -66,16 +80,22 @@
                 }
                 diaryEntry.value = '';
                 editIndex.value = null;
+                saveEntries();
             };
 
             const deleteEntry = (index) => {
                 diaryEntries.value.splice(index, 1);
+                saveEntries();
             };
 
             const startEditing = (index) => {
                 diaryEntry.value = diaryEntries.value[index];
                 editIndex.value = index;
             };
+
+            onMounted(() => {
+                loadEntries();
+            });
 
             return {
                 diaryEntry,

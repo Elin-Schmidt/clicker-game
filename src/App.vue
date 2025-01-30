@@ -22,6 +22,9 @@
                         <b-nav-item to="/" exact>Home</b-nav-item>
                         <b-nav-item to="/clicker-game">Clicker Game</b-nav-item>
                         <b-nav-item to="/notes">Notes</b-nav-item>
+                        <b-nav-item to="/twitch-calendar"
+                            >Twitch Calendar</b-nav-item
+                        >
                     </b-navbar-nav>
                 </b-collapse>
             </b-navbar>
