@@ -57,7 +57,7 @@
 
                 // Max count for each button
                 firstMaxCount: 100,
-                secondMaxCount: 500
+                secondMaxCount: 250
             };
         },
         // Calculate the total progress of the heart

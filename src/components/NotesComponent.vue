@@ -100,14 +100,19 @@
         flex: 1;
         display: flex;
         flex-direction: column;
-        min-width: 100dvw;
+        align-items: center; /* Centrera horisontellt */
+        justify-content: center; /* Centrera vertikalt */
+        width: 100%; /* Anpassa bredden */
     }
 
     .container {
         display: flex;
-        flex: 1;
-        padding: 20px;
         flex-direction: column;
+        align-items: center; /* Centrera innehållet */
+        padding: 20px;
+        min-width: 500px;
+        max-width: 800px; /* Begränsa bredden för bättre layout */
+        width: 100%;
     }
 
     .title {
@@ -124,12 +129,14 @@
         margin-bottom: 10px;
         border-radius: 8px;
         background-color: #fff;
-        height: 100px;
+        height: 100%;
+        width: 100%;
         text-align: start;
         vertical-align: top;
     }
 
     .button {
+        width: 100%;
         background-color: #ffd5c3;
         padding: 12px;
         border-radius: 8px;
@@ -145,6 +152,7 @@
     .linebreak {
         margin: 20px 0;
         height: 1px;
+        width: 100%;
         background-color: #000;
     }
 
@@ -172,10 +180,12 @@
         border-style: double;
         border-color: #ffd5c3;
         border-radius: 8px;
-        height: 45px;
         box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2);
         display: flex;
         align-items: center;
+        width: 100%; /* Gör så att varje entry tar upp hela bredden */
+        min-height: 45px; /* Minimumhöjd så att den inte kollapsar */
+        box-sizing: border-box; /* Inkludera padding och border i storleken */
     }
 
     .emptyMessage {
@@ -206,5 +216,6 @@
     }
     ul {
         list-style: none;
+        padding: 0;
     }
 </style>
