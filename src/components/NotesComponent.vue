@@ -1,62 +1,86 @@
 <template>
     <div class="wrapper">
-        <div class="main">
-            <div class="container">
-                <h1 class="title">My Notes</h1>
+        <!-- Input-fältet som alltid är högst upp -->
+        <div class="top-input">
+            <h1 class="title">My Notes</h1>
+            <textarea
+                class="textArea"
+                placeholder="Add a note..."
+                v-model="diaryEntry"
+                rows="5"
+            ></textarea>
+            <button class="button" @click="addOrUpdateEntry">
+                {{ editIndex !== null ? 'Update note' : 'Add note' }}
+            </button>
+        </div>
 
-                <textarea
-                    class="textArea"
-                    placeholder="Add a note..."
-                    v-model="diaryEntry"
-                    rows="5"
-                ></textarea>
-
-                <button class="button" @click="addOrUpdateEntry">
-                    {{ editIndex !== null ? 'Update note' : 'Add note' }}
-                </button>
-
-                <div class="linebreak"></div>
-
-                <p v-if="diaryEntries.length === 0" class="emptyMessage">
-                    No notes!
-                </p>
-
+        <div class="main-container">
+            <!-- Sidebar -->
+            <div class="sidebar">
                 <ul>
                     <li
                         v-for="(entry, index) in diaryEntries"
                         :key="index"
-                        class="entry-container"
+                        @click="selectEntry(index)"
                     >
-                        <p class="entry">{{ entry }}</p>
-                        <div class="entryActions">
-                            <button
-                                @click="startEditing(index)"
-                                class="actionText"
-                            >
-                                Edit
-                            </button>
-                            <button
-                                @click="deleteEntry(index)"
-                                class="actionText"
-                            >
-                                Delete
-                            </button>
-                        </div>
+                        {{ entry.substring(0, 20) }}...
                     </li>
                 </ul>
+            </div>
+
+            <!-- Innehåll där den valda noten visas -->
+            <div class="entriesContainer">
+                <p v-if="selectedEntry === null" class="emptyMessage">
+                    No notes!
+                </p>
+                <p v-else class="entry">{{ diaryEntries[selectedEntry] }}</p>
+
+                <div class="entryActions">
+                    <button
+                        v-if="selectedEntry !== null"
+                        @click="startEditing(selectedEntry)"
+                        class="actionText"
+                    >
+                        Edit
+                    </button>
+                    <button
+                        v-if="selectedEntry !== null"
+                        @click="deleteEntry(selectedEntry)"
+                        class="actionText"
+                    >
+                        Delete
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    import { ref } from 'vue';
+    import { ref, onMounted, watch } from 'vue';
 
     export default {
         setup() {
             const diaryEntry = ref('');
             const diaryEntries = ref([]);
             const editIndex = ref(null);
+            const selectedEntry = ref(null);
+
+            // Hämta dagboksinlägg från localStorage när komponenten laddas
+            onMounted(() => {
+                const savedEntries = localStorage.getItem('diaryEntries');
+                if (savedEntries) {
+                    diaryEntries.value = JSON.parse(savedEntries);
+                }
+            });
+
+            // Spara dagboksinlägg till localStorage varje gång listan uppdateras
+            watch(diaryEntries, (newEntries) => {
+                localStorage.setItem(
+                    'diaryEntries',
+                    JSON.stringify(newEntries)
+                );
+            });
 
             const addOrUpdateEntry = () => {
                 if (editIndex.value !== null) {
@@ -64,12 +88,19 @@
                 } else {
                     diaryEntries.value.push(diaryEntry.value);
                 }
+                localStorage.setItem(
+                    'diaryEntries',
+                    JSON.stringify(diaryEntries.value)
+                );
                 diaryEntry.value = '';
                 editIndex.value = null;
             };
 
             const deleteEntry = (index) => {
                 diaryEntries.value.splice(index, 1);
+                if (selectedEntry.value === index) {
+                    selectedEntry.value = null;
+                }
             };
 
             const startEditing = (index) => {
@@ -77,13 +108,19 @@
                 editIndex.value = index;
             };
 
+            const selectEntry = (index) => {
+                selectedEntry.value = index;
+            };
+
             return {
                 diaryEntry,
                 diaryEntries,
                 editIndex,
+                selectedEntry,
                 addOrUpdateEntry,
                 deleteEntry,
-                startEditing
+                startEditing,
+                selectEntry
             };
         }
     };
@@ -91,57 +128,38 @@
 
 <style scoped>
     .wrapper {
-        flex: 1;
         display: flex;
         flex-direction: column;
+        align-items: center;
     }
 
-    .main {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: center; /* Centrera horisontellt */
-        justify-content: center; /* Centrera vertikalt */
-        width: 100%; /* Anpassa bredden */
-    }
-
-    .container {
-        display: flex;
-        flex-direction: column;
-        align-items: center; /* Centrera innehållet */
-        padding: 20px;
-        min-width: 500px;
-        max-width: 800px; /* Begränsa bredden för bättre layout */
+    .top-input {
         width: 100%;
+        max-width: 1050px;
+        margin-bottom: 0;
+        padding-bottom: 2%;
+        border-bottom: 2px solid #ff99ac;
     }
 
     .title {
-        font-size: 26px;
-        font-weight: bold;
-        margin-bottom: 20px;
-        color: #333;
-        text-align: center;
+        font-size: 24px;
+        margin-bottom: 10px;
     }
 
     .textArea {
-        border: 1px solid #ddd;
+        width: 100%;
         padding: 10px;
         margin-bottom: 10px;
-        border-radius: 8px;
-        background-color: #fff;
-        height: 100%;
-        width: 100%;
-        text-align: start;
-        vertical-align: top;
+        border: 1px solid #ccc;
+        border-radius: 4px;
     }
 
     .button {
         width: 100%;
-        background-color: #ffd5c3;
+        background-color: #ffd5c3; /* Ljus orange/rosa */
         padding: 12px;
         border-radius: 8px;
-        border-style: inset;
-        border-color: #333;
+        border: 2px solid #333;
         text-align: center;
         margin: 10px 0;
         color: #000;
@@ -149,58 +167,59 @@
         cursor: pointer;
     }
 
-    .linebreak {
-        margin: 20px 0;
-        height: 1px;
+    .button:hover {
+        background-color: #ffbfa3;
+    }
+
+    .main-container {
+        display: flex;
         width: 100%;
-        background-color: #000;
+        max-width: 1200px;
+        flex-grow: 1;
+        justify-content: space-between;
+    }
+
+    .sidebar {
+        width: 200px;
+        border-right: 2px solid #ff99ac;
+        flex-shrink: 0;
+    }
+
+    .sidebar ul {
+        text-align: start;
+        padding-left: 5px !important;
+        width: 100%;
+    }
+    .sidebar li {
+        list-style-type: none;
+        padding: 5%;
+        cursor: pointer;
+        border: 1px solid #ff99ac;
     }
 
     .entriesContainer {
-        border: 1px solid #ddd;
-        border-radius: 8px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        min-width: 450px;
+        max-width: 800px;
+        width: 100%;
         background-color: #f8f8f8;
-    }
-
-    .entryContainer {
-        border: 1px solid #000;
-        border-radius: 8px;
-        padding: 5px;
-        background-color: #f8f8f8;
+        overflow: auto;
     }
 
     .entry {
-        background-color: #fff1eb;
-        padding: 25px;
-        margin: 2px 0;
-        font-size: 18px;
-        font-style: italic;
-        color: #333;
-        border: 8px;
-        border-style: double;
-        border-color: #ffd5c3;
-        border-radius: 8px;
-        box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2);
-        display: flex;
-        align-items: center;
-        width: 100%; /* Gör så att varje entry tar upp hela bredden */
-        min-height: 45px; /* Minimumhöjd så att den inte kollapsar */
-        box-sizing: border-box; /* Inkludera padding och border i storleken */
-    }
-
-    .emptyMessage {
-        text-align: center;
-        color: #999;
-        font-style: italic;
+        margin-bottom: 20px;
+        width: 100%;
     }
 
     .entryActions {
         display: flex;
-        justify-content: space-between;
-        margin-left: 10px;
-        margin-right: 10px;
-        margin-bottom: 50px;
-        margin-top: 10px;
+        justify-content: space-between; /* Se till att knapparna placeras på varsin kant */
+        width: 100%; /* Gör så att de tar upp hela bredden */
+        margin-top: 10px; /* Lägger till lite utrymme ovanför knapparna */
     }
 
     .actionText {
@@ -209,13 +228,33 @@
         text-decoration: none;
         cursor: pointer;
         background-color: #ffd5c3;
-        border: 1px;
-        border-style: inset;
-        border-color: #000;
+        border: 2px solid #000;
         border-radius: 18px;
+        padding: 5px 10px;
     }
+
+    .actionText:hover {
+        background-color: #ffbfa3;
+    }
+
     ul {
-        list-style: none;
-        padding: 0;
+        list-style-type: none;
+    }
+
+    /* Responsiv design */
+    @media (max-width: 768px) {
+        .main-container {
+            flex-direction: column; /* Sidebar går under textarean på mindre skärmar */
+        }
+
+        .sidebar {
+            width: 100%;
+            border-right: none;
+            border-bottom: 2px solid #ff99ac;
+        }
+
+        .textArea {
+            width: 100%; /* Textarea ska fortfarande fylla hela bredden */
+        }
     }
 </style>
