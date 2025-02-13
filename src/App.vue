@@ -8,20 +8,26 @@
                 type="light"
                 class="custom-navbar flex-column align-items-center"
             >
-                <!-- Centered Brand -->
                 <b-navbar-brand href="/" class="text-center"
                     >Min App</b-navbar-brand
                 >
 
-                <!-- Toggle button for small screens -->
-                <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+                <b-navbar-toggle
+                    target="nav-collapse"
+                    v-model="isNavOpen"
+                ></b-navbar-toggle>
 
-                <!-- Collapsible content -->
-                <b-collapse id="nav-collapse" is-nav>
+                <b-collapse id="nav-collapse" is-nav v-model="isNavOpen">
                     <b-navbar-nav class="w-100 d-flex justify-content-center">
-                        <b-nav-item to="/" exact>Home</b-nav-item>
-                        <b-nav-item to="/clicker-game">Clicker Game</b-nav-item>
-                        <b-nav-item to="/notes">Notes</b-nav-item>
+                        <b-nav-item to="/" exact @click.native="closeNav"
+                            >Home</b-nav-item
+                        >
+                        <b-nav-item to="/clicker-game" @click.native="closeNav"
+                            >Clicker Game</b-nav-item
+                        >
+                        <b-nav-item to="/notes" @click.native="closeNav"
+                            >Notes</b-nav-item
+                        >
                     </b-navbar-nav>
                 </b-collapse>
             </b-navbar>
@@ -33,6 +39,23 @@
         </main>
     </div>
 </template>
+
+<script>
+    export default {
+        data() {
+            return {
+                isNavOpen: false // Startar som stängd
+            };
+        },
+        methods: {
+            closeNav() {
+                if (window.innerWidth <= 991) {
+                    this.isNavOpen = false; // Stänger menyn
+                }
+            }
+        }
+    };
+</script>
 
 <style>
     .custom-navbar {
