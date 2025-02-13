@@ -7,7 +7,13 @@
                 background: `linear-gradient(to top, #ff6b6b ${progress}%, #fff ${progress}%)`
             }"
         >
-            <p class="fetched-quote" v-if="progress === 100">{{ quote }}</p>
+            <p
+                class="fetched-quote"
+                v-if="progress === 100"
+                @click="addQuoteToNotes"
+            >
+                {{ quote }}
+            </p>
         </div>
         <p>{{ progress }}% av hjärtat är helt!</p>
     </div>
@@ -15,6 +21,7 @@
 
 <script>
     import axios from 'axios';
+    import { useNotesStore } from '../stores/notes';
 
     export default {
         props: {
@@ -47,10 +54,6 @@
 
                 try {
                     const response = await axios.get(fullUrl);
-                    console.log(
-                        'Hämtat citat:',
-                        response.data.contents.quoteText
-                    );
                     const parsedData = JSON.parse(response.data.contents);
 
                     // Kontrollera om API:et returnerade en array och ta första objektet
@@ -63,6 +66,10 @@
                     console.error('Kunde inte hämta citatet', error);
                     this.quote = 'I Believe in you';
                 }
+            },
+            addQuoteToNotes() {
+                const notesStore = useNotesStore();
+                notesStore.addNote(this.quote);
             }
         }
     };

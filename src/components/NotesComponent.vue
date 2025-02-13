@@ -19,7 +19,7 @@
             <div class="sidebar">
                 <ul>
                     <li
-                        v-for="(entry, index) in diaryEntries"
+                        v-for="(entry, index) in notesStore.notes"
                         :key="index"
                         @click="selectEntry(index)"
                     >
@@ -33,7 +33,9 @@
                 <p v-if="selectedEntry === null" class="emptyMessage">
                     No notes!
                 </p>
-                <p v-else class="entry">{{ diaryEntries[selectedEntry] }}</p>
+                <p v-else class="entry">
+                    {{ notesStore.notes[selectedEntry] }}
+                </p>
 
                 <div class="entryActions">
                     <button
@@ -58,53 +60,34 @@
 
 <script>
     import { ref, onMounted, watch } from 'vue';
+    import { useNotesStore } from '../stores/notes';
 
     export default {
         setup() {
+            const notesStore = useNotesStore();
             const diaryEntry = ref('');
-            const diaryEntries = ref([]);
             const editIndex = ref(null);
             const selectedEntry = ref(null);
 
-            // Hämta dagboksinlägg från localStorage när komponenten laddas
-            onMounted(() => {
-                const savedEntries = localStorage.getItem('diaryEntries');
-                if (savedEntries) {
-                    diaryEntries.value = JSON.parse(savedEntries);
-                }
-            });
-
-            // Spara dagboksinlägg till localStorage varje gång listan uppdateras
-            watch(diaryEntries, (newEntries) => {
-                localStorage.setItem(
-                    'diaryEntries',
-                    JSON.stringify(newEntries)
-                );
-            });
-
             const addOrUpdateEntry = () => {
                 if (editIndex.value !== null) {
-                    diaryEntries.value[editIndex.value] = diaryEntry.value;
+                    notesStore.updateNote(editIndex.value, diaryEntry.value);
                 } else {
-                    diaryEntries.value.push(diaryEntry.value);
+                    notesStore.addNote(diaryEntry.value);
                 }
-                localStorage.setItem(
-                    'diaryEntries',
-                    JSON.stringify(diaryEntries.value)
-                );
                 diaryEntry.value = '';
                 editIndex.value = null;
             };
 
             const deleteEntry = (index) => {
-                diaryEntries.value.splice(index, 1);
+                notesStore.deleteNote(index);
                 if (selectedEntry.value === index) {
                     selectedEntry.value = null;
                 }
             };
 
             const startEditing = (index) => {
-                diaryEntry.value = diaryEntries.value[index];
+                diaryEntry.value = notesStore.notes[index];
                 editIndex.value = index;
             };
 
@@ -113,8 +96,8 @@
             };
 
             return {
+                notesStore,
                 diaryEntry,
-                diaryEntries,
                 editIndex,
                 selectedEntry,
                 addOrUpdateEntry,
