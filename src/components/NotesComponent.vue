@@ -20,15 +20,20 @@
                         v-for="(entry, index) in notesStore.notes"
                         :key="index"
                         @click="selectEntry(index)"
+                        :class="{ selected: selectedEntry === index }"
                     >
-                        {{ entry.substring(0, 20) }}...
+                        {{ entry.substring(0, charactersToShow) }}...
                     </li>
                 </ul>
             </div>
 
             <div class="entriesContainer">
-                <p v-if="selectedEntry === null" class="emptyMessage">
-                    No notes!
+                <p
+                    v-if="selectedEntry === null"
+                    class="emptyMessage"
+                    placeholder="Select an entry to view"
+                >
+                    Select an entry to view
                 </p>
                 <p v-else class="entry">
                     {{ notesStore.notes[selectedEntry] }}
@@ -56,7 +61,7 @@
 </template>
 
 <script>
-    import { ref, onMounted, watch } from 'vue';
+    import { ref, onMounted, onUnmounted, watch, computed } from 'vue';
     import { useNotesStore } from '../stores/notes';
 
     export default {
@@ -65,6 +70,7 @@
             const diaryEntry = ref('');
             const editIndex = ref(null);
             const selectedEntry = ref(null);
+            const windowWidth = ref(window.innerWidth);
 
             const addOrUpdateEntry = () => {
                 if (editIndex.value !== null) {
@@ -92,6 +98,22 @@
                 selectedEntry.value = index;
             };
 
+            const charactersToShow = computed(() => {
+                return windowWidth.value <= 768 ? 50 : 20;
+            });
+
+            const updateWindowWidth = () => {
+                windowWidth.value = window.innerWidth;
+            };
+
+            onMounted(() => {
+                window.addEventListener('resize', updateWindowWidth);
+            });
+
+            onUnmounted(() => {
+                window.removeEventListener('resize', updateWindowWidth);
+            });
+
             return {
                 notesStore,
                 diaryEntry,
@@ -100,7 +122,8 @@
                 addOrUpdateEntry,
                 deleteEntry,
                 startEditing,
-                selectEntry
+                selectEntry,
+                charactersToShow
             };
         }
     };
@@ -118,7 +141,7 @@
         max-width: 1050px;
         margin-bottom: 0;
         padding-bottom: 2%;
-        border-bottom: 2px solid #ff99ac;
+        border-bottom: 1px solid #ff99ac;
     }
 
     .title {
@@ -163,6 +186,9 @@
         width: 200px;
         border-right: 2px solid #ff99ac;
         flex-shrink: 0;
+        overflow-y: scroll;
+        max-height: 29.6dvh;
+        scroll-snap-type: proximity;
     }
 
     .sidebar ul {
@@ -176,6 +202,12 @@
         cursor: pointer;
         border: 1px solid #ff99ac;
     }
+    .sidebar li:hover {
+        background-color: #eee3e3;
+    }
+    .sidebar li.selected {
+        background-color: #eee3e3;
+    }
 
     .entriesContainer {
         flex: 1;
@@ -188,11 +220,14 @@
         width: 100%;
         background-color: #f8f8f8;
         overflow: auto;
+        border-radius: 1rem;
+        margin-top: 1rem;
     }
 
     .entry {
-        margin-bottom: 20px;
+        margin-bottom: 50px;
         width: 100%;
+        min-height: 10dvh;
     }
 
     .entryActions {
@@ -220,6 +255,10 @@
     ul {
         list-style-type: none;
     }
+    .emptyMessage {
+        color: #747474;
+        font-style: italic;
+    }
 
     @media (max-width: 768px) {
         .main-container {
@@ -229,11 +268,16 @@
         .sidebar {
             width: 100%;
             border-right: none;
-            border-bottom: 2px solid #ff99ac;
         }
 
         .textArea {
             width: 100%;
+        }
+        .sidebar li {
+            padding: 0.69rem;
+        }
+        .entriesContainer {
+            border: 2px solid #ff99ac;
         }
     }
 </style>

@@ -74,7 +74,7 @@
     att åsidosätta Bootstrap's !important genom att öka specificiteten.
      */
     body .container {
-        margin-top: 10.5rem !important;
+        margin-top: 12.5rem !important;
     }
     .custom-header {
         display: flex;

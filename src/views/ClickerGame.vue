@@ -28,6 +28,7 @@
 <script>
     import ClickerButton from '../components/ClickerButton.vue';
     import Heart from '../components/Heart.vue';
+    import { useHeartStore } from '../stores/heartStore';
 
     export default {
         components: {
@@ -37,9 +38,10 @@
         data() {
             return {
                 defaultButtonStyle: {
-                    backgroundColor: '#4caf50',
+                    backgroundColor: '#ad615d',
                     color: '#fff',
                     borderRadius: '2rem',
+                    border: 'none',
                     padding: '15px 32px',
                     textAlign: 'center',
                     textDecoration: 'none',
@@ -49,13 +51,16 @@
                     cursor: 'pointer'
                 },
 
+                count_button1: 0,
+                count_button2: 0,
                 firstButtonNumber: 0,
                 secondButtonNumber: 0,
                 isFirstButtonDisabled: false,
                 isSecondButtonDisabled: false,
 
-                firstMaxCount: 100,
-                secondMaxCount: 250
+                // Max count for each button
+                firstMaxCount: 50,
+                secondMaxCount: 100
             };
         },
 
@@ -84,6 +89,23 @@
                     localStorage.setItem('isSecondButtonDisabled', true);
                 }
                 localStorage.setItem('secondButtonNumber', count);
+            },
+            resetProgress() {
+                const heartStore = useHeartStore();
+                heartStore.resetProgress();
+                this.count_button1 = 0;
+                this.count_button2 = 0;
+                this.firstButtonNumber = 0;
+                this.secondButtonNumber = 0;
+                this.isFirstButtonDisabled = false;
+                this.isSecondButtonDisabled = false;
+                localStorage.removeItem('count_button1');
+                localStorage.removeItem('count_button2');
+                localStorage.removeItem('firstButtonNumber');
+                localStorage.removeItem('secondButtonNumber');
+                localStorage.removeItem('isFirstButtonDisabled');
+                localStorage.removeItem('isSecondButtonDisabled');
+                window.location.reload();
             }
         },
 
