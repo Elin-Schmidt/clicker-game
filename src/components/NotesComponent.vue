@@ -1,6 +1,5 @@
 <template>
     <div class="wrapper">
-        <!-- Input-fältet som alltid är högst upp -->
         <div class="top-input">
             <h1 class="title">My Notes</h1>
             <textarea
@@ -15,7 +14,6 @@
         </div>
 
         <div class="main-container">
-            <!-- Sidebar -->
             <div class="sidebar">
                 <ul>
                     <li
@@ -28,7 +26,6 @@
                 </ul>
             </div>
 
-            <!-- Innehåll där den valda noten visas -->
             <div class="entriesContainer">
                 <p v-if="selectedEntry === null" class="emptyMessage">
                     No notes!
@@ -139,7 +136,7 @@
 
     .button {
         width: 100%;
-        background-color: #ffd5c3; /* Ljus orange/rosa */
+        background-color: #ffd5c3;
         padding: 12px;
         border-radius: 8px;
         border: 2px solid #333;
@@ -200,9 +197,9 @@
 
     .entryActions {
         display: flex;
-        justify-content: space-between; /* Se till att knapparna placeras på varsin kant */
-        width: 100%; /* Gör så att de tar upp hela bredden */
-        margin-top: 10px; /* Lägger till lite utrymme ovanför knapparna */
+        justify-content: space-between;
+        width: 100%;
+        margin-top: 10px;
     }
 
     .actionText {
@@ -224,10 +221,9 @@
         list-style-type: none;
     }
 
-    /* Responsiv design */
     @media (max-width: 768px) {
         .main-container {
-            flex-direction: column; /* Sidebar går under textarean på mindre skärmar */
+            flex-direction: column;
         }
 
         .sidebar {
@@ -237,7 +233,7 @@
         }
 
         .textArea {
-            width: 100%; /* Textarea ska fortfarande fylla hela bredden */
+            width: 100%;
         }
     }
 </style>

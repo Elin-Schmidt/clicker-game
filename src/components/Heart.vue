@@ -56,7 +56,6 @@
                     const response = await axios.get(fullUrl);
                     const parsedData = JSON.parse(response.data.contents);
 
-                    // Kontrollera om API:et returnerade en array och ta första objektet
                     if (Array.isArray(parsedData) && parsedData.length > 0) {
                         this.quote = parsedData[0].q;
                     } else {
@@ -84,9 +83,9 @@
     }
 
     .heart {
-        width: 50vw; /* Use viewport width for responsiveness */
-        height: 40vh; /* Use viewport height for responsiveness */
-        max-width: 500px; /* Set a maximum width */
+        width: 50vw;
+        height: 40vh;
+        max-width: 500px;
         max-height: 400px;
         background: linear-gradient(to top, #ff6b6b 0%, #fff 0%);
         mask: radial-gradient(at 70% 31%, #000 29%, #0000 30%),
@@ -101,11 +100,10 @@
         color: black;
         font-size: 16px;
         box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
-        padding: 1rem; /* Lägg till lite padding för att hålla texten inne */
-        overflow: hidden; /* Förhindrar texten från att gå utanför */
+        padding: 1rem;
+        overflow: hidden;
     }
 
-    /* Pulsating animation */
     .pulsate {
         animation: pulse 1s ease-in-out infinite;
     }
@@ -123,7 +121,7 @@
     }
 
     .fetched-quote {
-        font-size: clamp(1rem, 1.2vw, 1.8rem); /* Dynamisk storlek */
+        font-size: clamp(1rem, 1.2vw, 1.8rem);
         font-weight: bold;
         font-variant: small-caps;
         line-height: 1.3;
@@ -142,7 +140,7 @@
 
     @media (min-width: 1600px) {
         .fetched-quote {
-            font-size: clamp(0.8rem, 1vw, 1.5rem); /* Sänk maxstorleken */
+            font-size: clamp(0.8rem, 1vw, 1.5rem);
             line-height: 1.2;
         }
     }
@@ -155,22 +153,22 @@
 
     @media (min-width: 769px) and (max-width: 1199px) {
         .fetched-quote {
-            font-size: clamp(1rem, 2vw, 2rem); /* Justera storleken dynamiskt */
-            line-height: 1.3; /* Minska linjeavstånd för att hålla texten kompakt */
-            max-width: 80%; /* Säkerställ att texten inte går utanför */
+            font-size: clamp(1rem, 2vw, 2rem);
+            line-height: 1.3;
+            max-width: 80%;
             word-wrap: break-word;
         }
     }
 
     @media (max-width: 768px) {
         .heart {
-            width: 70vw; /* Adjust width for smaller screens */
+            width: 70vw;
             height: 30vh;
         }
 
         .fetched-quote {
             font-size: clamp(0.8rem, 2.5vw, 1.5rem);
-            line-height: 1.2; /* Adjust line height for smaller screens */
+            line-height: 1.2;
         }
     }
 </style>
