@@ -1,7 +1,19 @@
 <template>
     <div>
-        <h1>Home Page</h1>
-        <p>Welcome to the home page!</p>
+        <div class="image-container">
+            <img
+                src="/img/welcome.png"
+                alt="Welcome"
+                class="img-fluid welcome"
+            />
+        </div>
+        <p>
+            Needed Implementations:
+            <ul>
+                <li>No new quote on reload</li>
+                <li>"Restart" button inside heart after 20(?) heartbeats</li>
+            </ul>
+        </p>
     </div>
 </template>
 
@@ -11,8 +23,9 @@
     };
 </script>
 
-<style scoped>
-    h1 {
-        color: #333;
+<style>
+    .image-container {
+        display: flex;
+        justify-content: center;
     }
 </style>

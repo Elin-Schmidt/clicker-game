@@ -36,7 +36,6 @@
         },
         data() {
             return {
-                // Default button style
                 defaultButtonStyle: {
                     backgroundColor: '#4caf50',
                     color: '#fff',
@@ -55,12 +54,11 @@
                 isFirstButtonDisabled: false,
                 isSecondButtonDisabled: false,
 
-                // Max count for each button
                 firstMaxCount: 100,
                 secondMaxCount: 250
             };
         },
-        // Calculate the total progress of the heart
+
         computed: {
             totalProgress() {
                 const firstButtonProgress =
@@ -88,7 +86,7 @@
                 localStorage.setItem('secondButtonNumber', count);
             }
         },
-        // Load the saved data from the local storage
+
         mounted() {
             const savedFirstButtonNumber =
                 localStorage.getItem('firstButtonNumber');
