@@ -7,13 +7,23 @@
                 background: `linear-gradient(to top, #ff6b6b ${progress}%, #fff ${progress}%)`
             }"
         >
-            <p
-                class="fetched-quote"
-                v-if="progress === 100"
-                @click="addQuoteToNotes"
-            >
-                {{ quote }}
-            </p>
+            <section class="quote-container">
+                <p
+                    class="fetched-quote"
+                    v-if="progress === 100"
+                    @click="addQuoteToNotes"
+                >
+                    {{ heartStore.quote }}
+                </p>
+
+                <button
+                    class="reset-button"
+                    v-if="heartStore.pulsateCount >= 5"
+                    @click="confirmReset"
+                >
+                    Reset Progress
+                </button>
+            </section>
         </div>
         <p>{{ progress }}% av hjärtat är helt!</p>
     </div>
@@ -22,6 +32,7 @@
 <script>
     import axios from 'axios';
     import { useNotesStore } from '../stores/notes';
+    import { useHeartStore } from '../stores/heartStore';
 
     export default {
         props: {
@@ -30,21 +41,15 @@
                 required: true
             }
         },
-        data() {
-            return {
-                quote: ''
-            };
-        },
-        watch: {
-            progress(newVal) {
-                console.log('Heart.vue: Progress ändrad till:', newVal);
-                if (newVal === 100) {
-                    this.fetchQuote();
+        setup() {
+            const heartStore = useHeartStore();
+            const notesStore = useNotesStore();
+
+            const fetchQuote = async () => {
+                if (localStorage.getItem('quote')) {
+                    heartStore.setQuote(localStorage.getItem('quote'));
+                    return;
                 }
-            }
-        },
-        methods: {
-            async fetchQuote() {
                 const proxyUrl = 'https://api.allorigins.win/get?url=';
                 const targetUrl = 'https://zenquotes.io/api/random';
                 const fullUrl = `${proxyUrl}${encodeURIComponent(
@@ -57,18 +62,41 @@
                     const parsedData = JSON.parse(response.data.contents);
 
                     if (Array.isArray(parsedData) && parsedData.length > 0) {
-                        this.quote = parsedData[0].q;
+                        heartStore.setQuote(parsedData[0].q);
+                        localStorage.setItem('quote', heartStore.quote);
                     } else {
-                        this.quote = 'Citat kunde inte hämtas.';
+                        heartStore.setQuote('Citat kunde inte hämtas.');
                     }
                 } catch (error) {
                     console.error('Kunde inte hämta citatet', error);
-                    this.quote = 'I Believe in you';
+                    heartStore.setQuote('I Believe In You');
                 }
-            },
-            addQuoteToNotes() {
-                const notesStore = useNotesStore();
-                notesStore.addNote(this.quote);
+            };
+
+            const addQuoteToNotes = () => {
+                notesStore.addNote(heartStore.quote);
+            };
+
+            const confirmReset = () => {
+                if (confirm('Are you sure you want to reset the progress?')) {
+                    heartStore.resetProgress();
+                }
+            };
+
+            return {
+                heartStore,
+                fetchQuote,
+                addQuoteToNotes,
+                confirmReset
+            };
+        },
+        watch: {
+            progress(newVal) {
+                console.log('Heart.vue: Progress ändrad till:', newVal);
+                if (newVal === 100) {
+                    this.fetchQuote();
+                    this.heartStore.startPulse();
+                }
             }
         }
     };
@@ -94,8 +122,9 @@
         clip-path: polygon(-41% 0, 50% 91%, 141% 0);
         margin: 20px;
         display: flex;
-        align-items: flex-start;
-        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
         text-align: center;
         color: black;
         font-size: 16px;
@@ -120,6 +149,13 @@
         }
     }
 
+    .quote-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
     .fetched-quote {
         font-size: clamp(1rem, 1.2vw, 1.8rem);
         font-weight: bold;
@@ -127,7 +163,6 @@
         line-height: 1.3;
         color: #000000;
         max-width: 90%;
-        max-height: 90%;
         word-wrap: break-word;
         display: flex;
         justify-content: center;
@@ -136,6 +171,32 @@
         overflow: hidden;
         margin-top: 2rem;
         cursor: pointer;
+    }
+
+    .reset-button {
+        background-color: #eee3e3;
+        color: #000;
+        border: none;
+        padding: 10px 20px;
+        margin-top: 0.5rem;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+        display: flex;
+        justify-content: center;
+        box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+            rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
+            rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    }
+
+    .reset-button:hover {
+        background-color: #fbcfc1;
+        color: #000;
+    }
+
+    .reset-button:active {
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
+            rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
     }
 
     @media (min-width: 1600px) {

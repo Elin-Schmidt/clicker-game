@@ -78,7 +78,7 @@
                 }
             },
             startDelayedIncrement() {
-                this.intervalId = setTimeout(this.startIncrement, 1000);
+                this.intervalId = setTimeout(this.startIncrement, 10000);
             },
             stopIncrement() {
                 clearInterval(this.intervalId);
@@ -112,15 +112,15 @@
                     case newCount >= 100:
                         this.buttonStyle = {
                             ...this.initialStyle,
-                            backgroundColor: '#f44336',
+                            backgroundColor: '#2d1918',
                             color: '#fff'
                         };
                         break;
                     case newCount >= 50:
                         this.buttonStyle = {
                             ...this.initialStyle,
-                            backgroundColor: '#ff9800',
-                            color: '#000'
+                            backgroundColor: '#7a4441',
+                            color: '#fff'
                         };
                         break;
                     default:
