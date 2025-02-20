@@ -98,6 +98,9 @@
                     this.heartStore.startPulse();
                 }
             }
+        },
+        mounted() {
+            this.heartStore.restorePulsateState();
         }
     };
 </script>
