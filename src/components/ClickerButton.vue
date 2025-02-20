@@ -35,6 +35,7 @@
                 default: 100
             }
         },
+        emits: ['countReached'],
         data() {
             return {
                 count: 0,
