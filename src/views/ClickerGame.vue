@@ -93,19 +93,6 @@
             resetProgress() {
                 const heartStore = useHeartStore();
                 heartStore.resetProgress();
-                this.count_button1 = 0;
-                this.count_button2 = 0;
-                this.firstButtonNumber = 0;
-                this.secondButtonNumber = 0;
-                this.isFirstButtonDisabled = false;
-                this.isSecondButtonDisabled = false;
-                localStorage.removeItem('count_button1');
-                localStorage.removeItem('count_button2');
-                localStorage.removeItem('firstButtonNumber');
-                localStorage.removeItem('secondButtonNumber');
-                localStorage.removeItem('isFirstButtonDisabled');
-                localStorage.removeItem('isSecondButtonDisabled');
-                window.location.reload();
             }
         },
 
