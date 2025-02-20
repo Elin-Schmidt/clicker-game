@@ -32,6 +32,7 @@
 </template>
 
 <script>
+  import { watch, onMounted } from 'vue'
   import axios from 'axios'
   import { useNotesStore } from '../stores/notes'
   import { useHeartStore } from '../stores/heartStore'
@@ -43,7 +44,7 @@
         required: true
       }
     },
-    setup() {
+    setup(props) {
       const heartStore = useHeartStore()
       const notesStore = useNotesStore()
 
@@ -85,24 +86,27 @@
         }
       }
 
+      watch(
+        () => props.progress,
+        (newVal) => {
+          console.log('Heart.vue: Progress ändrad till:', newVal)
+          if (newVal === 100) {
+            fetchQuote()
+            heartStore.startPulse()
+          }
+        }
+      )
+
+      onMounted(() => {
+        heartStore.restorePulsateState()
+      })
+
       return {
         heartStore,
         fetchQuote,
         addQuoteToNotes,
         confirmReset
       }
-    },
-    watch: {
-      progress(newVal) {
-        console.log('Heart.vue: Progress ändrad till:', newVal)
-        if (newVal === 100) {
-          this.fetchQuote()
-          this.heartStore.startPulse()
-        }
-      }
-    },
-    mounted() {
-      this.heartStore.restorePulsateState()
     }
   }
 </script>

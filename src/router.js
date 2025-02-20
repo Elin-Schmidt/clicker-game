@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import ClickerGame from './views/ClickerGame.vue'
-import Home from './views/Home.vue'
-import Notes from './views/Notes.vue'
+import Home from './views/HomeView.vue'
+import Notes from './views/NotesView.vue'
 
 export default createRouter({
   history: createWebHistory(),

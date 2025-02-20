@@ -63,7 +63,7 @@
 </template>
 
 <script>
-  import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
+  import { ref, onMounted, onUnmounted, computed } from 'vue'
   import { useNotesStore } from '../stores/notes'
 
   export default {
