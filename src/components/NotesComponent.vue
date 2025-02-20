@@ -7,7 +7,7 @@
                 placeholder="Add a note..."
                 v-model="diaryEntry"
                 rows="5"
-            ></textarea>
+            />
             <button class="button" @click="addOrUpdateEntry">
                 {{ editIndex !== null ? 'Update note' : 'Add note' }}
             </button>

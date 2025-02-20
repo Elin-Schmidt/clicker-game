@@ -7,19 +7,19 @@
         <section id="clicker-button">
             <ClickerButton
                 id="button1"
-                :initialStyle="defaultButtonStyle"
+                :initial-style="defaultButtonStyle"
                 :disabled="isFirstButtonDisabled"
-                :changeTextAtMax="true"
-                :maxCount="firstMaxCount"
-                @countReached="firstButtonAction"
+                :change-text-at-max="true"
+                :max-count="firstMaxCount"
+                @count-reached="firstButtonAction"
             />
             <ClickerButton
                 id="button2"
-                :initialStyle="defaultButtonStyle"
+                :initial-style="defaultButtonStyle"
                 :disabled="isSecondButtonDisabled"
-                :changeTextAtMax="true"
-                :maxCount="secondMaxCount"
-                @countReached="secondButtonAction"
+                :change-text-at-max="true"
+                :max-count="secondMaxCount"
+                @count-reached="secondButtonAction"
             />
         </section>
     </main>
@@ -27,7 +27,7 @@
 
 <script>
     import ClickerButton from '../components/ClickerButton.vue';
-    import Heart from '../components/Heart.vue';
+    import Heart from '../components/HeartComponent.vue';
     import { useHeartStore } from '../stores/heartStore';
 
     export default {
