@@ -3,7 +3,7 @@
 <template>
   <div class="wrapper">
     <div class="top-input">
-      <h1 class="title">My Notes</h1>
+      <h1 class="title">My Thought Collection</h1>
       <textarea
         class="textArea"
         placeholder="Add a note..."
@@ -147,8 +147,30 @@
   }
 
   .title {
-    font-size: 24px;
-    margin-bottom: 10px;
+    color: whitesmoke !important;
+    background-clip: text;
+    background-image: linear-gradient(
+      to right,
+      #ad615d,
+      #767e7a,
+      #ad615d,
+      #767e7a,
+      #ad615d,
+      #767e7a
+    );
+    color: var(--color-background);
+    font-size: var(--font-size);
+    font-weight: var(--font-weight);
+    letter-spacing: var(--letter-spacing);
+    padding: calc(--stroke-width / 2);
+    -webkit-text-stroke-color: transparent;
+    -webkit-text-stroke-width: var(--stroke-width);
+    margin-bottom: 25px;
+    font-family: Poppins, sans-serif;
+    --stroke-width: calc(2em / 16);
+    --font-size: 4.8vmin;
+    --font-weight: 700;
+    --letter-spacing: calc(1.2em / 8);
   }
 
   .textArea {

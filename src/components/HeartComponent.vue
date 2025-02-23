@@ -6,7 +6,7 @@
       class="heart"
       :class="{ pulsate: progress === 100 }"
       :style="{
-        background: `linear-gradient(to top, #ff6b6b ${progress}%, #fff ${progress}%)`
+        background: `linear-gradient(to top, #ff6b6b ${progress}%, #eee3e3 ${progress}%)`
       }"
     >
       <section class="quote-container">
@@ -116,7 +116,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 20px;
+    margin-top: 40px;
   }
 
   .heart {
@@ -124,12 +124,11 @@
     height: 40vh;
     max-width: 500px;
     max-height: 400px;
-    background: linear-gradient(to top, #ff6b6b 0%, #fff 0%);
+    background: linear-gradient(to top, #ff6b6b 0%, #eee3e3 0%);
     mask: radial-gradient(at 70% 31%, #000 29%, #0000 30%),
       radial-gradient(at 30% 31%, #000 29%, #0000 30%),
       linear-gradient(#000 0 0) bottom/100% 50% no-repeat;
     clip-path: polygon(-41% 0, 50% 91%, 141% 0);
-    margin: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -232,7 +231,7 @@
 
   @media (max-width: 768px) {
     .heart {
-      width: 70vw;
+      width: 50vw;
       height: 30vh;
     }
 

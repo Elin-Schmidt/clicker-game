@@ -1,8 +1,32 @@
 <!-- Options API -->
 
 <template>
-  <header><h1>Welcome to the Clicker Game!</h1></header>
+  <header>
+    <h1>
+      Heartful Clicks!<br />
+      Collect and Reflect
+    </h1>
+  </header>
   <main>
+    <button class="tooltip-button" @click="toggleTooltip" ref="howToPlay">
+      How to Play
+    </button>
+    <div
+      class="tooltip"
+      ref="tooltip"
+      :class="{ 'tooltip-visible': isTooltipVisible }"
+    >
+      <p>
+        <strong>Click the Buttons</strong> – There are two buttons at the bottom
+        of the screen. Clicking them will gradually fill up the heart. Each
+        button contributes to the heart's progress. Once the heart is filled, a
+        quote will appear inside it.
+      </p>
+      <p>
+        Click on the quote to save it as a note in your notebook. Your notebook
+        can be accessed from another link on the page.
+      </p>
+    </div>
     <section>
       <Heart :progress="totalProgress" />
     </section>
@@ -62,7 +86,10 @@
 
         // Max count for each button
         firstMaxCount: 50,
-        secondMaxCount: 100
+        secondMaxCount: 100,
+
+        // Tooltip visibility
+        isTooltipVisible: false
       }
     },
 
@@ -95,9 +122,31 @@
       resetProgress() {
         const heartStore = useHeartStore()
         heartStore.resetProgress()
+      },
+      toggleTooltip(event) {
+        console.log('toggleTooltip called')
+        event.stopPropagation() // Prevent the click event from propagating to the document
+        this.isTooltipVisible = !this.isTooltipVisible
+        if (this.isTooltipVisible) {
+          document.addEventListener('click', this.hideTooltip)
+        } else {
+          document.removeEventListener('click', this.hideTooltip)
+        }
+      },
+      hideTooltip(event) {
+        console.log('hideTooltip called')
+        const button = this.$refs.howToPlay
+        const tooltip = this.$refs.tooltip
+        if (
+          tooltip &&
+          !tooltip.contains(event.target) &&
+          event.target !== button
+        ) {
+          this.isTooltipVisible = false
+          document.removeEventListener('click', this.hideTooltip)
+        }
       }
     },
-
     mounted() {
       const savedFirstButtonNumber = localStorage.getItem('firstButtonNumber')
       const savedSecondButtonNumber = localStorage.getItem('secondButtonNumber')
@@ -126,13 +175,77 @@
 
 <style scoped>
   h1 {
-    color: #333;
+    color: #eee3e3 !important;
+    background-clip: text;
+    background-image: linear-gradient(
+      to right,
+      #ad615d,
+      #767e7a,
+      #ad615d,
+      #767e7a,
+      #ad615d,
+      #767e7a
+    );
+    color: var(--color-background);
+    font-size: var(--font-size);
+    font-weight: var(--font-weight);
+    letter-spacing: var(--letter-spacing);
+    padding: calc(--stroke-width / 2);
+    -webkit-text-stroke-color: transparent;
+    -webkit-text-stroke-width: var(--stroke-width);
+    margin-bottom: 13px;
+    font-family: Poppins, sans-serif;
+    --stroke-width: calc(2em / 16);
+    --font-size: 5vmin;
+    --font-weight: 700;
+    --letter-spacing: calc(1.2em / 8);
   }
   main {
     display: flex;
     flex-direction: column;
+    position: relative;
   }
   #clicker-button {
     align-self: center;
+  }
+
+  .tooltip-button {
+    padding: 10px 20px;
+    background-color: #ad615d;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    max-width: 300px;
+    align-self: center;
+  }
+  .tooltip {
+    max-width: 300px;
+    text-align: left;
+    z-index: 1000; /* Ensure the tooltip is above other elements */
+    overflow: hidden;
+    height: 0;
+    opacity: 0;
+    transition: height 0.3s ease, opacity 0.3s ease;
+    align-self: center;
+  }
+  .tooltip-visible {
+    height: auto;
+    opacity: 1;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background: white;
+    color: black;
+  }
+  .tooltip::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent transparent white transparent;
   }
 </style>
