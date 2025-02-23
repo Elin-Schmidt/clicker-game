@@ -89,9 +89,7 @@
     list-style: none;
     margin-top: 150px;
   }
-  .container {
-    padding: 20px;
-  }
+
   @media (max-width: 991px) {
     .custom-header {
       display: flex;
