@@ -177,7 +177,7 @@
     align-items: center;
     text-align: center;
     overflow: hidden;
-    margin-top: 2rem;
+    margin-top: 1rem;
     cursor: pointer;
   }
 
