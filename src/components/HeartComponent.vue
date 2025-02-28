@@ -6,7 +6,7 @@
       class="heart"
       :class="{ pulsate: progress === 100 }"
       :style="{
-        background: `linear-gradient(to top, #ff6b6b ${progress}%, #eee3e3 ${progress}%)`
+        background: `linear-gradient(to top, #ff6b6b ${progress}%, #fff ${progress}%)`
       }"
     >
       <section class="quote-container">
@@ -124,7 +124,7 @@
     height: 40vh;
     max-width: 500px;
     max-height: 400px;
-    background: linear-gradient(to top, #ff6b6b 0%, #eee3e3 0%);
+    background: linear-gradient(to top, #ff6b6b 0%, #fff 0%);
     mask: radial-gradient(at 70% 31%, #000 29%, #0000 30%),
       radial-gradient(at 30% 31%, #000 29%, #0000 30%),
       linear-gradient(#000 0 0) bottom/100% 50% no-repeat;
@@ -195,6 +195,8 @@
     box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
       rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
       rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    max-width: 200px;
+    width: auto;
   }
 
   .reset-button:hover {
@@ -231,13 +233,19 @@
 
   @media (max-width: 768px) {
     .heart {
-      width: 50vw;
+      width: 70vw;
       height: 30vh;
     }
 
     .fetched-quote {
       font-size: clamp(0.8rem, 2.5vw, 1.5rem);
       line-height: 1.2;
+    }
+
+    .reset-button {
+      padding: 8px 16px;
+      font-size: 14px;
+      max-width: 150px;
     }
   }
 </style>
