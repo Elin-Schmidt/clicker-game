@@ -65,7 +65,7 @@
     att åsidosätta Bootstrap's !important genom att öka specificiteten.
      */
   body .container {
-    margin-top: 12.5rem !important;
+    margin-top: 10.5rem !important;
   }
   .custom-header {
     display: flex;
@@ -80,14 +80,14 @@
     background-color: whitesmoke;
   }
   .logo {
-    width: 120px;
+    width: 100px;
     transition: all 0.3s ease-in-out;
   }
   .custom-navbar {
     background-color: #eee3e3;
     color: #2f4f4f;
     list-style: none;
-    margin-top: 150px;
+    margin-top: 130px;
   }
 
   @media (max-width: 991px) {
