@@ -136,6 +136,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 0 1rem; /* Lägg till padding för att undvika horisontell scrollning */
   }
 
   .top-input {
@@ -204,6 +205,7 @@
     max-width: 1200px;
     flex-grow: 1;
     justify-content: space-between;
+    overflow-x: hidden;
   }
 
   .sidebar {
@@ -239,7 +241,7 @@
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    min-width: 450px;
+    min-width: 0; /* Lägg till min-width: 0 för att förhindra horisontell scrollning */
     max-width: 800px;
     width: 100%;
     background-color: #f8f8f8;
