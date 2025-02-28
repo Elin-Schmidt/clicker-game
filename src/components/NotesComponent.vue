@@ -180,6 +180,7 @@
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    background-color: whitesmoke;
   }
 
   .button {
@@ -215,6 +216,7 @@
     overflow-y: scroll;
     max-height: 29.6dvh;
     scroll-snap-type: proximity;
+    scrollbar-color: black #eee3e3;
   }
 
   .sidebar ul {
