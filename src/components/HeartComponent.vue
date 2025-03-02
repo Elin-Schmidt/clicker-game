@@ -241,6 +241,7 @@
     .fetched-quote {
       font-size: clamp(0.8rem, 2.5vw, 1.5rem);
       line-height: 1.2;
+      margin-top: 1rem;
     }
 
     .reset-button {
