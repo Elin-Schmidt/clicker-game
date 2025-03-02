@@ -248,6 +248,7 @@
       padding: 8px 16px;
       font-size: 14px;
       max-width: 150px;
+      margin-top: -0.3rem;
     }
   }
 </style>
