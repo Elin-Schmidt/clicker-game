@@ -230,6 +230,7 @@
     padding: 5%;
     cursor: pointer;
     border: 1px solid #ff99ac;
+    word-break: break-word; /* Lägg till word-break för att bryta långa ord */
   }
   .sidebar li:hover {
     background-color: #eee3e3;
@@ -257,6 +258,8 @@
     margin-bottom: 50px;
     width: 100%;
     min-height: 10dvh;
+    text-align: start;
+    word-break: break-word; /* Lägg till word-break för att bryta långa ord */
   }
 
   .entryActions {
@@ -290,6 +293,9 @@
   }
 
   @media (max-width: 768px) {
+    body {
+      max-width: 85%;
+    }
     .main-container {
       flex-direction: column;
     }
@@ -300,7 +306,7 @@
     }
 
     .textArea {
-      width: 100%;
+      max-width: 100%;
     }
     .sidebar li {
       padding: 0.69rem;

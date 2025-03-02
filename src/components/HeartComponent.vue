@@ -179,6 +179,7 @@
     overflow: hidden;
     margin-top: 2.5rem;
     cursor: pointer;
+    word-break: break-word; /* Lägg till word-break för att bryta långa ord */
   }
 
   .reset-button {
