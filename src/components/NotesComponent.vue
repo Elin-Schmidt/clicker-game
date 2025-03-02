@@ -181,6 +181,7 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     background-color: whitesmoke;
+    color: #000;
   }
 
   .button {
