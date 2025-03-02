@@ -177,7 +177,7 @@
     align-items: center;
     text-align: center;
     overflow: hidden;
-    margin-top: 1rem;
+    margin-top: 2.5rem;
     cursor: pointer;
   }
 
@@ -213,6 +213,7 @@
     .fetched-quote {
       font-size: clamp(0.8rem, 1vw, 1.5rem);
       line-height: 1.2;
+      margin-top: 2.5rem;
     }
   }
 

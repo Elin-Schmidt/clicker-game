@@ -96,5 +96,9 @@
     .custom-header {
       display: flex;
     }
+    .custom-navbar .nav-item .nav-link {
+      box-shadow: rgba(124, 128, 125, 0.25) 0px 1px 1px,
+        rgba(124, 128, 125, 0.13) 0px 0px 1px 1px;
+    }
   }
 </style>
